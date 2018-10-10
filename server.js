@@ -5,6 +5,7 @@ const passport = require('passport');
 
 const users = require('./routes/api/users');
 const uploadExcel = require('./routes/api/xlsUpload');
+const buzzindex = require('./routes/api/buzzindex');
 const path = require("path");
 
 const app = express();
@@ -38,12 +39,13 @@ require('./config/passport')(passport);
 // Use Routes
 app.use('/api/users', users);
 app.use('/api/upload', uploadExcel);
+app.use(buzzindex);
 
 //Serve static asset if in production
 if(process.env.NODE_ENV === 'production') {
   //set Status
   app.use(express.static('client/build'));
-  
+
   app.use("*", (req,res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
